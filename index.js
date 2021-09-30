@@ -16,6 +16,37 @@ inquirer.prompt(
             message: "How is the application installed?",
             name: 'installation',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
+        },
+        {
+            type: 'input',
+            message: "Instructions you may need to follow.",
+            name: 'instructions',
+            validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
+        },
+        {
+            type: 'input',
+            message: "Any credits you would like to give?",
+            name: 'credits',
+            validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
+        },
+        {
+            type: 'input',
+            message: "How do you use the application?",
+            name: 'usage',
+            validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
+        },
+        {
+            type: 'list',
+            message: "What license did you use?",
+            name: 'license',
+            choices: ['The MIT License', 'The GPL License', 'Apache License', 'GNU License', 'N/A'],
+            validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
+        },
+        {
+            type: 'input',
+            message: "Github Username:",
+            name: 'git',
+            validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         }
     ]
 )
