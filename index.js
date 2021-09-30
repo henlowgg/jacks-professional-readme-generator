@@ -1,10 +1,13 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
+const util = require('util');
+
+const writeFileAsync = util.promisify(fs.writeFile);
 
 // inquirer to generate questions
-inquirer.prompt(
-    [
+function promptUser() {
+    return inquirer.prompt([
         {
             type: 'input',
             message: "What is the project title?",
@@ -13,14 +16,14 @@ inquirer.prompt(
         },
         {
             type: 'input',
-            message: "How is the application installed?",
-            name: 'installation',
+            message: "Enter a description of the project:",
+            name: 'description',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         },
         {
             type: 'input',
-            message: "Instructions for deployment of the application:",
-            name: 'instructions',
+            message: "How is the application installed? Write NONE if there are no instructions.",
+            name: 'installation',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         },
         {
@@ -38,83 +41,94 @@ inquirer.prompt(
         {
             type: 'list',
             message: "What license did you use?",
+            choices: ['MIT', 'Apache-2.0', 'GPL-3.0-only', 'N/A'],
             name: 'license',
-            choices: ['The MIT License', 'The GPL License', 'Apache License', 'GNU License', 'N/A'],
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         },
         {
             type: 'input',
-            message: "Github Username:",
+            message: "What is your Github Username?",
             name: 'git',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         },
         {
             type: 'input',
-            message: "Linkedin:",
+            message: "How can you be found on Linkedin?",
             name: 'linkedin',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         },
         {
             type: 'input',
-            message: "E-mail:",
+            message: "What is your E-mail?",
             name: 'email',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
-        }
-    ]
-).then(({
-    title,
-    installation,
-    instructions,
-    credits,
-    usage,
-    license,
-    git,
-    linkedin,
-    email,
-    contribution,
-})=>{
-    // markdown template for the actual README itself
-    const template =`# ${title}
-
-    * [Installation](#installation)
-    * [Usage](#usage)
-    * [Contributions](#contributions)
-    * [Credits](#credits)
-    * [License](#license)
-    ## Installation
-    ${installation}
-    ## Usage
-    ${usage}
-    ## Contribution
-    ${contribution}
-    ## Instructions
-    ${instructions}
-    ## Credits
-    ${credits}
-    ## License
-    ${license}
-
-    ## Contact
-    * Github :${git}
-    * Linkedin :${linkedin}
-    * E-mail :${email}`;
-
-    writeToFile(title,template);
+        },
+    ]);
 }
-);
+
+function generateMarkdown(response) {
+    return `
+# ${response.title}
+
+# Table of Contents
 
 
 
-// TODO: Create an array of questions for user input
-const questions = [];
+- [Description](#description)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributions](#contributions)
+- [Instructions](#instructions)
+- [Credits](#credits)
+- [License](#license)
+- [Questions](#questions)
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {
-    // inserting the fs here
-    fs.writeFile(`./${fileName.toLowerCase().split(' ').join('')}.md`,data,(err)=>{
-        if (err) {
-            console.log(err);
-        }
-        console.log('Your README has been generated successfully!');
-    })
+## Description:
+![License](https://img.shields.io/badge/License-${response.license}-blue.svg "License Badge")
+
+    ${response.description}
+## Installation:
+    ${response.installation}
+
+## Usage
+    ${response.usage}
+
+## Contribution
+    ${response.contribution}
+
+## Instructions
+    ${response.instructions}
+
+## Credits
+    ${response.credits}
+
+## License
+    For more information about the License, click the link below.
+
+- [License](https://opensource.org/licenses/${response.license})
+
+## Questions:
+    For any questions please go to my Github page through the link below:
+
+- [Github Profile](https://github.com/${response.git})
+
+## For any other questions you might have please reach out to me via E-mail at: ${response.email}.
+`;
 }
+
+async function init() {
+    try {
+        const response = await promptUser();
+
+        const readMe = generateMarkdown(response);
+
+        await writeFileAsync("README.md", readMe);
+        console.log("Your README has been generated successfully!");
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// initialize the program
+init();
+
