@@ -6,7 +6,7 @@ const util = require('util');
 const writeFileAsync = util.promisify(fs.writeFile);
 
 // inquirer to generate questions
-function promptUser() {
+const promptUser = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -41,7 +41,7 @@ function promptUser() {
         {
             type: 'list',
             message: "What license did you use?",
-            choices: ['MIT', 'Apache-2.0', 'GPL-3.0-only', 'N/A'],
+            choices: ['MIT', 'Apache', 'GPL-3.0-only', 'N/A'],
             name: 'license',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         },
@@ -49,12 +49,6 @@ function promptUser() {
             type: 'input',
             message: "What is your Github Username?",
             name: 'git',
-            validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
-        },
-        {
-            type: 'input',
-            message: "How can you be found on Linkedin?",
-            name: 'linkedin',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         },
         {
@@ -112,9 +106,10 @@ function generateMarkdown(response) {
 
 - [Github Profile](https://github.com/${response.git})
 
-## For any other questions you might have please reach out to me via E-mail at: ${response.email}.
+## Email:
+    For any other questions you might have please reach out to me via E-mail at: ${response.email}.
 `;
-}
+};
 
 async function init() {
     try {
@@ -125,9 +120,9 @@ async function init() {
         await writeFileAsync("README.md", readMe);
         console.log("Your README has been generated successfully!");
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
-}
+};
 
 // initialize the program
 init();
