@@ -7,7 +7,7 @@ inquirer.prompt(
     [
         {
             type: 'input',
-            message="What is the project title?",
+            message: "What is the project title?",
             name:'title',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         },
@@ -19,7 +19,7 @@ inquirer.prompt(
         },
         {
             type: 'input',
-            message: "Instructions you may need to follow.",
+            message: "Instructions for deployment of the application:",
             name: 'instructions',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         },
@@ -47,19 +47,74 @@ inquirer.prompt(
             message: "Github Username:",
             name: 'git',
             validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
+        },
+        {
+            type: 'input',
+            message: "Linkedin:",
+            name: 'linkedin',
+            validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
+        },
+        {
+            type: 'input',
+            message: "E-mail:",
+            name: 'email',
+            validate: (value)=>{ if (value){return true} else {return 'Please enter a value to continue'}},
         }
     ]
-)
+).then(({
+    title,
+    installation,
+    instructions,
+    credits,
+    usage,
+    license,
+    git,
+    linkedin,
+    email,
+    contribution,
+})=>{
+    // markdown template for the actual README itself
+    const template =`# ${title}
+
+    * [Installation](#installation)
+    * [Usage](#usage)
+    * [Contributions](#contributions)
+    * [Credits](#credits)
+    * [License](#license)
+    # Installation
+    ${installation}
+    ## Usage
+    ${usage}
+    ## Contribution
+    ${contribution}
+    ### Instructions
+    ${instructions}
+    ## Credits
+    ${credits}
+    ## License
+    ${license}
+
+    ## Contact
+    * Github :${git}
+    * Linkedin :${linkedin}
+    * E-mail :${email}`;
+
+    writeToFile(title,template);
+}
+);
+
 
 
 // TODO: Create an array of questions for user input
 const questions = [];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
-function init() {}
-
-// Function call to initialize app
-init();
+function writeToFile(fileName, data) {
+    // inserting the fs here
+    fs.writeFile(`./${fileName.toLowerCase().split(' ').join('')}.md`,data,(err)=>{
+        if (err) {
+            console.log(err);
+        }
+        console.log('Your README has been generated successfully!');
+    })
+}
