@@ -23,7 +23,8 @@
 
 ## Usage
     You simply run a node terminal instance and follow the prompts.
-- Preview: ![plot](./Develop/images/readme-gif.gif)
+- Preview: ![screen-gif](./Develop/images/readme-gif.gif)
+- YT Preview: https://youtu.be/llzkkk5W0K0
 
 ## Contribution
     undefined
