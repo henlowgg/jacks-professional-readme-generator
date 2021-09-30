@@ -23,6 +23,7 @@
 
 ## Usage
     You simply run a node terminal instance and follow the prompts.
+- Preview: ![plot](./Develop/images/readme-gif.gif)
 
 ## Contribution
     undefined
