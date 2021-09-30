@@ -24,6 +24,8 @@
 ## Usage
     You simply run a node terminal instance and follow the prompts.
 - Preview: ![screen-gif](./Develop/images/readme-gif.gif)
+- Preview: ![plot](./Develop/images/readme-img1.png)
+- Preview: ![plot](./Develop/images/readme-img2.png)
 - YT Preview: https://youtu.be/llzkkk5W0K0
 
 ## Contribution
