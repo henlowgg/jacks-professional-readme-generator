@@ -81,13 +81,13 @@ inquirer.prompt(
     * [Contributions](#contributions)
     * [Credits](#credits)
     * [License](#license)
-    # Installation
+    ## Installation
     ${installation}
     ## Usage
     ${usage}
     ## Contribution
     ${contribution}
-    ### Instructions
+    ## Instructions
     ${instructions}
     ## Credits
     ${credits}
